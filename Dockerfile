@@ -1,4 +1,6 @@
-FROM ubuntu:24.04 AS org
+ARG UBUNTU_VERSION=24.04
+
+FROM ubuntu:${UBUNTU_VERSION} AS org
 ARG OPENFOAM_VERSION=12
 
 RUN apt-get update \
@@ -25,7 +27,7 @@ ENTRYPOINT ["/openfoam/run"]
 CMD ["bash"]
 
 
-FROM ubuntu:24.04 AS slim
+FROM ubuntu:${UBUNTU_VERSION} AS slim
 ARG OPENFOAM_VERSION=2406
 
 RUN apt-get update \
