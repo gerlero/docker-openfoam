@@ -37,7 +37,7 @@ jobs:
           push: ${{ github.event_name == 'push' }}
           target: slim
           build-args: |
-            OPENFOAM_VERSION=2312
+            OPENFOAM_VERSION=2406
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
@@ -88,6 +88,310 @@ jobs:
           push: ${{ github.event_name == 'push' }}
           build-args: |
             OPENFOAM_VERSION=2312
+  com-2306:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        if: vars.DOCKERHUB_REPOSITORY
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push (slim)
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2306-slim
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          target: slim
+          build-args: |
+            OPENFOAM_VERSION=2306
+            UBUNTU_VERSION=22.04
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2306
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          build-args: |
+            OPENFOAM_VERSION=2306
+            UBUNTU_VERSION=22.04
+  com-2212:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        if: vars.DOCKERHUB_REPOSITORY
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push (slim)
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2212-slim
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          target: slim
+          build-args: |
+            OPENFOAM_VERSION=2212
+            UBUNTU_VERSION=22.04
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2212
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          build-args: |
+            OPENFOAM_VERSION=2212
+            UBUNTU_VERSION=22.04
+  com-2206:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        if: vars.DOCKERHUB_REPOSITORY
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push (slim)
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2206-slim
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          target: slim
+          build-args: |
+            OPENFOAM_VERSION=2206
+            UBUNTU_VERSION=22.04
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2206
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          build-args: |
+            OPENFOAM_VERSION=2206
+            UBUNTU_VERSION=22.04
+  com-2112:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        if: vars.DOCKERHUB_REPOSITORY
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push (slim)
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2112-slim
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          target: slim
+          build-args: |
+            OPENFOAM_VERSION=2112
+            UBUNTU_VERSION=22.04
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2112
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          build-args: |
+            OPENFOAM_VERSION=2112
+            UBUNTU_VERSION=22.04
+  com-2106:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        if: vars.DOCKERHUB_REPOSITORY
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push (slim)
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2106-slim
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          target: slim
+          build-args: |
+            OPENFOAM_VERSION=2106
+            UBUNTU_VERSION=22.04
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2106
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          build-args: |
+            OPENFOAM_VERSION=2106
+            UBUNTU_VERSION=22.04
+  com-2012:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        if: vars.DOCKERHUB_REPOSITORY
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push (slim)
+        uses: docker/build-push-action@v6
+        with:
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2012-slim
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          target: slim
+          build-args: |
+            OPENFOAM_VERSION=2012
+            UBUNTU_VERSION=22.04
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2012
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          build-args: |
+            OPENFOAM_VERSION=2012
+            UBUNTU_VERSION=22.04
+  com-2006:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        if: vars.DOCKERHUB_REPOSITORY
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push (slim)
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2006-slim
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          target: slim
+          build-args: |
+            OPENFOAM_VERSION=2006
+            UBUNTU_VERSION=22.04
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: 'linux/amd64,linux/arm64'
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:2006
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          build-args: |
+            OPENFOAM_VERSION=2006
+            UBUNTU_VERSION=22.04
+  com-1912:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        if: vars.DOCKERHUB_REPOSITORY
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push (slim)
+        uses: docker/build-push-action@v6
+        with:
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:1912-slim
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          target: slim
+          build-args: |
+            OPENFOAM_VERSION=1912
+            UBUNTU_VERSION=18.04
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:1912
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: ${{ github.event_name == 'push' }}
+          build-args: |
+            OPENFOAM_VERSION=1912
+            UBUNTU_VERSION=18.04
   org-12:
     runs-on: ubuntu-latest
     steps:

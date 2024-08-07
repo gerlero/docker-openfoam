@@ -12,6 +12,22 @@
 - `slim`, `com-slim`, `2406-slim`
 - `2312`
 - `2312-slim`
+- `2306`
+- `2306-slim`
+- `2212`
+- `2212-slim`
+- `2206`
+- `2206-slim`
+- `2112`
+- `2112-slim`
+- `2106`
+- `2106-slim`
+- `2012` (amd64 only)
+- `2012-slim` (amd64 only)
+- `2006`
+- `2006-slim`
+- `1912` (amd64 only)
+- `1912-slim` (amd64 only)
 
 ### openfoam.org
 
