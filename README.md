@@ -33,3 +33,9 @@
 
 - `org`, `12`
 - `11`
+- `10` (arm64 only)
+- `9` (arm64 only)
+- `8` (arm64 only)
+- `7` (arm64 only)
+- `6` (arm64 only)
+- `5` (arm64 only)
