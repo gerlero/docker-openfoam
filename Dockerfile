@@ -17,12 +17,12 @@ RUN apt-get update \
 
 COPY openfoam /openfoam
 
-SHELL ["/bin/bash", "-c"]
+RUN ln -s /opt/openfoam${OPENFOAM_VERSION}/etc/bashrc /openfoam/profile.rc
 
-RUN ln -s /opt/openfoam${OPENFOAM_VERSION}/etc/bashrc /openfoam/profile.rc \
- # smoke tests
- && . /openfoam/profile.rc \
- && blockMesh -help \
+SHELL ["/openfoam/bash", "-c"]
+
+# smoke tests
+RUN blockMesh -help \
  && wmake -help
 
 ENTRYPOINT ["/openfoam/run"]
@@ -45,13 +45,13 @@ RUN apt-get update \
 
 COPY openfoam /openfoam
 
-SHELL ["/bin/bash", "-c"]
+RUN ln -s /usr/lib/openfoam/openfoam${OPENFOAM_VERSION}/etc/bashrc /openfoam/profile.rc
 
-RUN ln -s /usr/lib/openfoam/openfoam${OPENFOAM_VERSION}/etc/bashrc /openfoam/profile.rc \
- # smoke test
- && . /openfoam/profile.rc \
- && blockMesh -help
- 
+SHELL ["/openfoam/bash", "-c"]
+
+# smoke test
+RUN blockMesh -help
+
 ENTRYPOINT ["/openfoam/run"]
 CMD ["/usr/local/bin/openfoam"]
 
