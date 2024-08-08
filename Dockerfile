@@ -19,7 +19,7 @@ COPY openfoam /openfoam
 
 SHELL ["/bin/bash", "-c"]
 
-RUN echo ". /opt/openfoam${OPENFOAM_VERSION}/etc/bashrc" >> /openfoam/profile.rc \
+RUN ln -s /opt/openfoam${OPENFOAM_VERSION}/etc/bashrc /openfoam/profile.rc \
  # smoke test
  && . /openfoam/profile.rc \
  && blockMesh -help
@@ -46,7 +46,7 @@ COPY openfoam /openfoam
 
 SHELL ["/bin/bash", "-c"]
 
-RUN echo ". /usr/lib/openfoam/openfoam${OPENFOAM_VERSION}/etc/bashrc" >> /openfoam/profile.rc \
+RUN ln -s /usr/lib/openfoam/openfoam${OPENFOAM_VERSION}/etc/bashrc /openfoam/profile.rc \
  # smoke test
  && . /openfoam/profile.rc \
  && blockMesh -help
