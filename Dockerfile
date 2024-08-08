@@ -20,9 +20,10 @@ COPY openfoam /openfoam
 SHELL ["/bin/bash", "-c"]
 
 RUN ln -s /opt/openfoam${OPENFOAM_VERSION}/etc/bashrc /openfoam/profile.rc \
- # smoke test
+ # smoke tests
  && . /openfoam/profile.rc \
- && blockMesh -help
+ && blockMesh -help \
+ && wmake -help
 
 ENTRYPOINT ["/openfoam/run"]
 CMD ["bash"]
@@ -60,4 +61,7 @@ FROM slim
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
    openfoam${OPENFOAM_VERSION}-default \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ # smoke test
+ && . /openfoam/profile.rc \
+ && wmake -help
