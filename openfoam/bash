@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source /openfoam/profile.rc
+exec /bin/bash "$@"
