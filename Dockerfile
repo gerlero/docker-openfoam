@@ -7,6 +7,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
     wget \
     software-properties-common \
+    libnss-wrapper \
  && sh -c "wget -O - https://dl.openfoam.org/gpg.key > /etc/apt/trusted.gpg.d/openfoam.asc" \
  && add-apt-repository -y http://dl.openfoam.org/ubuntu \
  && apt-get update \
@@ -34,6 +35,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
    curl \
    ca-certificates \
+   libnss-wrapper \
  && curl https://dl.openfoam.com/add-debian-repo.sh | bash \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
    openfoam${OPENFOAM_VERSION} \

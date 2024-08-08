@@ -1,4 +1,13 @@
 #!/bin/bash
 
+# Use nss_wrapper for compatibility with the official openfoam-docker script
+export HOME=/home/openfoam
+export LD_PRELOAD=libnss_wrapper.so
+export NSS_WRAPPER_PASSWD="$(mktemp)"
+export NSS_WRAPPER_GROUP="$(mktemp)"
+echo "openfoam:x:$(id -u):$(id -g):openfoam:$HOME:/bin/bash" > "$NSS_WRAPPER_PASSWD"
+echo "openfoam:x:$(id -g):" > "$NSS_WRAPPER_GROUP"
+cd
+
 source /openfoam/profile.rc
 exec "$@"
