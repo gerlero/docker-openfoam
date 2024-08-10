@@ -4,6 +4,10 @@
 ![OpenFOAM](https://img.shields.io/badge/openfoam-.com%20|%20.org-informational)
 [![Docker image](https://img.shields.io/badge/docker%20image-microfluidica%2Fopenfoam-0085a0)](https://hub.docker.com/r/microfluidica/openfoam/)
 
+Docker images of both major distributions of OpenFOAM.
+
+Mutliple versions available.`amd64` and `arm64` architectures are supported.
+
 ## Usage
 
 ### With `docker run`
@@ -26,6 +30,19 @@ openfoam-docker -image=microfluidica/openfoam:tagname
 
 ```bash
 apptainer run docker://microfluidica/openfoam:tagname
+```
+
+### As a base image
+
+Use these images as a base image for your own OpenFOAM-based projects by creating a `Dockerfile` like the following:
+
+```Dockerfile
+FROM microfluidica/openfoam:tagname
+
+COPY . /usr/local/myproject
+
+RUN /usr/local/myproject/Allwmake -j -prefix=group \
+ && /usr/local/myproject/Allclean
 ```
 
 ## Available tags
