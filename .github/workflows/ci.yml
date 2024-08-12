@@ -16,75 +16,75 @@ jobs:
         include:
           - openfoam-version: 2406
             ubuntu-version: 24.04
-            multiplatform: true
+            arm64: true
             latest: true
           - openfoam-version: 2312
             ubuntu-version: 24.04
-            multiplatform: true
+            arm64: true
             latest: false
           - openfoam-version: 2306
             ubuntu-version: 22.04
-            multiplatform: true
+            arm64: true
             latest: false
           - openfoam-version: 2212
             ubuntu-version: 22.04
-            multiplatform: true
+            arm64: true
             latest: false
           - openfoam-version: 2206
             ubuntu-version: 22.04
-            multiplatform: true
+            arm64: true
             latest: false
           - openfoam-version: 2112
             ubuntu-version: 22.04
-            multiplatform: true
+            arm64: true
             latest: false
           - openfoam-version: 2106
             ubuntu-version: 22.04
-            multiplatform: true
+            arm64: true
             latest: false
           - openfoam-version: 2012
             ubuntu-version: 22.04
-            multiplatform: false
+            arm64: false
             latest: false
           - openfoam-version: 2006
             ubuntu-version: 22.04
-            multiplatform: true
+            arm64: true
             latest: false
           - openfoam-version: 1912
             ubuntu-version: 18.04
-            multiplatform: false
+            arm64: false
             latest: false
           - openfoam-version: 12
             ubuntu-version: 24.04
-            multiplatform: true
+            arm64: true
             latest: true
           - openfoam-version: 11
             ubuntu-version: 24.04
-            multiplatform: true
+            arm64: true
             latest: false
           - openfoam-version: 10
             ubuntu-version: 22.04
-            multiplatform: false
+            arm64: false
             latest: false
           - openfoam-version: 9
             ubuntu-version: 22.04
-            multiplatform: false
+            arm64: false
             latest: false
           - openfoam-version: 8
             ubuntu-version: 20.04
-            multiplatform: false
+            arm64: false
             latest: false
           - openfoam-version: 7
             ubuntu-version: 20.04
-            multiplatform: false
+            arm64: false
             latest: false
           - openfoam-version: 6
             ubuntu-version: 18.04
-            multiplatform: false
+            arm64: false
             latest: false
           - openfoam-version: 5
             ubuntu-version: 18.04
-            multiplatform: false
+            arm64: false
             latest: false
       fail-fast: false
     uses: ./.github/workflows/docker.yml
@@ -93,7 +93,7 @@ jobs:
     with:
       openfoam-version: ${{ matrix.openfoam-version }}
       ubuntu-version: ${{ matrix.ubuntu-version }}
-      multiplatform: ${{ matrix.multiplatform }}
+      arm64: ${{ matrix.arm64 }}
       latest: ${{ matrix.latest }}
       push: ${{ github.event_name == 'push' }}
     secrets:
