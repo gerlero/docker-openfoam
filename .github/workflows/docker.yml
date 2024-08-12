@@ -9,7 +9,7 @@ on:
       ubuntu-version:
         type: string
         required: true
-      multiplatform:
+      arm64:
         type: boolean
         required: false
         default: true
@@ -36,8 +36,8 @@ on:
         description: Ubuntu version
         type: string
         required: true
-      multiplatform:
-        description: Build multiplatform image including amd64 and arm64
+      arm64:
+        description: Build multi-platform image including arm64
         type: boolean
         required: false
         default: true
@@ -59,7 +59,7 @@ jobs:
       packages: write
     steps:
       - name: Set up QEMU
-        if: inputs.multiplatform
+        if: inputs.arm64
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -81,12 +81,12 @@ jobs:
         if: inputs.openfoam-version >= 1000
         uses: docker/build-push-action@v6
         with:
-          platforms: ${{ inputs.multiplatform && 'linux/amd64,linux/arm64' || '' }}
+          platforms: ${{ inputs.arm64 && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
           tags: |
             ${{ vars.DOCKERHUB_REPOSITORY }}:${{ inputs.openfoam-version }}-slim
             ${{ inputs.latest && format('{0}:com-slim,{0}:slim', vars.DOCKERHUB_REPOSITORY) || '' }}
           cache-from: |
-            type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}
+            type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
             type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64
           push: ${{ inputs.push }}
           target: slim
@@ -97,33 +97,34 @@ jobs:
         if: inputs.openfoam-version >= 1000
         uses: docker/build-push-action@v6
         with:
-          platforms: ${{ inputs.multiplatform && 'linux/amd64,linux/arm64' || '' }}
+          platforms: ${{ inputs.arm64 && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
           tags: |
             ${{ vars.DOCKERHUB_REPOSITORY }}:${{ inputs.openfoam-version }}
             ${{ inputs.latest && format('{0}:com,{0}:latest', vars.DOCKERHUB_REPOSITORY) || '' }}
           cache-from: |
-            type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}
+            type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
             type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64
           push: ${{ inputs.push }}
           build-args: |
             OPENFOAM_VERSION=${{ inputs.openfoam-version }}
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
-      - name: Cache (com)
+      - name: Push build cache (com, amd64)
         if: inputs.openfoam-version >= 1000 && inputs.push
         uses: docker/build-push-action@v6
         with:
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}
+          platforms: linux/amd64
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
           build-args: |
             OPENFOAM_VERSION=${{ inputs.openfoam-version }}
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
-      - name: Cache (com, arm64)
-        if: inputs.openfoam-version >= 1000 && inputs.multiplatform && inputs.push
+      - name: Push build cache (com, arm64)
+        if: inputs.openfoam-version >= 1000 && inputs.arm64 && inputs.push
         uses: docker/build-push-action@v6
         with:
           platforms: linux/arm64
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64,mode=max
           build-args: |
             OPENFOAM_VERSION=${{ inputs.openfoam-version }}
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
@@ -131,12 +132,12 @@ jobs:
         if: inputs.openfoam-version < 1000
         uses: docker/build-push-action@v6
         with:
-          platforms: ${{ inputs.multiplatform && 'linux/amd64,linux/arm64' || '' }}
+          platforms: ${{ inputs.arm64 && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
           tags: |
             ${{ vars.DOCKERHUB_REPOSITORY }}:${{ inputs.openfoam-version }}
             ${{ inputs.latest && format('{0}:org', vars.DOCKERHUB_REPOSITORY) || '' }}
           cache-from: |
-            type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}
+            type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
             type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64
           cache-to: type=inline
           push: ${{ inputs.push }}
@@ -144,23 +145,24 @@ jobs:
           build-args: |
             OPENFOAM_VERSION=${{ inputs.openfoam-version }}
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
-      - name: Cache (org)
+      - name: Push build cache (org, amd64)
         if: inputs.openfoam-version < 1000 && inputs.push
         uses: docker/build-push-action@v6
         with:
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}
+          platforms: linux/amd64
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64,mode=max
           target: org
           build-args: |
             OPENFOAM_VERSION=${{ inputs.openfoam-version }}
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
-      - name: Cache (org, arm64)
-        if: inputs.openfoam-version < 1000 && inputs.multiplatform && inputs.push
+      - name: Push build cache (org, arm64)
+        if: inputs.openfoam-version < 1000 && inputs.arm64 && inputs.push
         uses: docker/build-push-action@v6
         with:
           platforms: linux/arm64
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64,mode=max
           target: org
           build-args: |
             OPENFOAM_VERSION=${{ inputs.openfoam-version }}
