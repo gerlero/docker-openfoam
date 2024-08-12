@@ -88,6 +88,8 @@ jobs:
             latest: false
       fail-fast: false
     uses: ./.github/workflows/docker.yml
+    permissions:
+      packages: write
     with:
       openfoam-version: ${{ matrix.openfoam-version }}
       ubuntu-version: ${{ matrix.ubuntu-version }}
