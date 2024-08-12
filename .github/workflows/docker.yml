@@ -21,6 +21,11 @@ on:
         type: boolean
         required: false
         default: false
+    secrets:
+      dockerhub-username:
+        required: false
+      dockerhub-token:
+        required: false
   workflow_dispatch:
     inputs:
       openfoam-version:
@@ -61,8 +66,8 @@ jobs:
         continue-on-error: ${{ !inputs.push }}
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.dockerhub-username || secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.dockerhub-token || secrets.DOCKERHUB_TOKEN }}
       - name: Build and push (com, slim)
         if: inputs.openfoam-version >= 1000
         uses: docker/build-push-action@v6
