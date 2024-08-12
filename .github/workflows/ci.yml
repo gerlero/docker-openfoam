@@ -94,3 +94,6 @@ jobs:
       multiplatform: ${{ matrix.multiplatform }}
       latest: ${{ matrix.latest }}
       push: ${{ github.event_name == 'push' }}
+    secrets:
+      dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
+      dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
