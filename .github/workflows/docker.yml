@@ -114,7 +114,7 @@ jobs:
         with:
           platforms: linux/amd64
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64,mode=max
           build-args: |
             OPENFOAM_VERSION=${{ inputs.openfoam-version }}
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
@@ -139,7 +139,6 @@ jobs:
           cache-from: |
             type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
             type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64
-          cache-to: type=inline
           push: ${{ inputs.push }}
           target: org
           build-args: |
