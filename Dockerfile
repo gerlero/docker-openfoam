@@ -25,11 +25,14 @@ SHELL ["/openfoam/bash", "-c"]
 RUN blockMesh -help \
  && wmake -help
 
+ENV OMPI_ALLOW_RUN_AS_ROOT=1
+ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+
 ENTRYPOINT ["/openfoam/run"]
 CMD ["bash"]
 
 
-FROM ubuntu:${UBUNTU_VERSION} AS slim
+FROM ubuntu:${UBUNTU_VERSION} AS slim-base
 ARG OPENFOAM_VERSION=2406
 
 RUN apt-get update \
@@ -43,6 +46,9 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* \
  && ln -s /usr/bin/openfoam${OPENFOAM_VERSION} /usr/local/bin/openfoam
 
+
+FROM slim-base AS slim
+
 COPY openfoam /openfoam
 
 RUN ln -s /usr/lib/openfoam/openfoam${OPENFOAM_VERSION}/etc/bashrc /openfoam/profile.rc
@@ -52,16 +58,33 @@ SHELL ["/openfoam/bash", "-c"]
 # smoke test
 RUN blockMesh -help
 
+ENV OMPI_ALLOW_RUN_AS_ROOT=1
+ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+
 ENTRYPOINT ["/openfoam/run"]
 CMD ["/usr/local/bin/openfoam"]
 
 
-FROM slim
+FROM slim-base
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
    openfoam${OPENFOAM_VERSION}-default \
- && rm -rf /var/lib/apt/lists/* \
- # smoke test
- && . /openfoam/profile.rc \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY openfoam /openfoam
+
+RUN ln -s /usr/lib/openfoam/openfoam${OPENFOAM_VERSION}/etc/bashrc /openfoam/profile.rc
+
+SHELL ["/openfoam/bash", "-c"]
+
+# smoke tests
+RUN blockMesh -help \
  && wmake -help
+
+ENV OMPI_ALLOW_RUN_AS_ROOT=1
+ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+
+ENTRYPOINT ["/openfoam/run"]
+CMD ["/usr/local/bin/openfoam"]
+ 
