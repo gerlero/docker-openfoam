@@ -40,6 +40,8 @@ RUN apt-get update \
    curl \
    ca-certificates \
    libnss-wrapper \
+# make not included with ${OPENFOAM_VERSION} <= 2006
+   make \
  && curl https://dl.openfoam.com/add-debian-repo.sh | bash \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
    openfoam${OPENFOAM_VERSION} \
