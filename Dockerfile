@@ -37,11 +37,9 @@ ARG OPENFOAM_VERSION=2406
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
-   curl \
-   ca-certificates \
-   libnss-wrapper \
-# make not included with ${OPENFOAM_VERSION} <= 2006
-   make \
+    curl \
+    ca-certificates \
+    libnss-wrapper \
  && curl https://dl.openfoam.com/add-debian-repo.sh | bash \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
    openfoam${OPENFOAM_VERSION} \
@@ -70,8 +68,10 @@ CMD ["/usr/local/bin/openfoam"]
 FROM slim-base
 
 RUN apt-get update \
+ && ([ ${OPENFOAM_VERSION} -ge 2012 ] || DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
+  build-essential) \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
-   openfoam${OPENFOAM_VERSION}-default \
+    openfoam${OPENFOAM_VERSION}-default \
  && rm -rf /var/lib/apt/lists/*
 
 COPY openfoam /openfoam
@@ -89,4 +89,3 @@ ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
 ENTRYPOINT ["/openfoam/run"]
 CMD ["/usr/local/bin/openfoam"]
- 
