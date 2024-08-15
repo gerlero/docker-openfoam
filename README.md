@@ -39,10 +39,10 @@ Use these images as a base image for your own OpenFOAM-based projects by creatin
 ```Dockerfile
 FROM microfluidica/openfoam:tagname
 
-COPY . /usr/local/myproject
+COPY . /usr/local/src/myproject
 
-RUN /usr/local/myproject/Allwmake -j -prefix=group \
- && /usr/local/myproject/Allclean
+RUN /usr/local/src/myproject/Allwmake -j -prefix=group \
+ && /usr/local/src/myproject/Allclean
 ```
 
 ## Available tags
