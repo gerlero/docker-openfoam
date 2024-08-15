@@ -93,6 +93,7 @@ jobs:
           build-args: |
             OPENFOAM_VERSION=${{ inputs.openfoam-version }}
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
+            BUILDKIT_MULTI_PLATFORM=${{ inputs.arm64 }}
       - name: Build and push (com)
         if: inputs.openfoam-version >= 1000
         uses: docker/build-push-action@v6
@@ -108,6 +109,7 @@ jobs:
           build-args: |
             OPENFOAM_VERSION=${{ inputs.openfoam-version }}
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
+            BUILDKIT_MULTI_PLATFORM=${{ inputs.arm64 }}
       - name: Push build cache (com, amd64)
         if: inputs.openfoam-version >= 1000 && inputs.push
         uses: docker/build-push-action@v6
@@ -144,6 +146,7 @@ jobs:
           build-args: |
             OPENFOAM_VERSION=${{ inputs.openfoam-version }}
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
+            BUILDKIT_MULTI_PLATFORM=${{ inputs.arm64 }}
       - name: Push build cache (org, amd64)
         if: inputs.openfoam-version < 1000 && inputs.push
         uses: docker/build-push-action@v6
