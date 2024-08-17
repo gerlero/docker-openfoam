@@ -8,6 +8,12 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      push:
+        description: Push the built images
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   ci:
@@ -95,7 +101,7 @@ jobs:
       ubuntu-version: ${{ matrix.ubuntu-version }}
       arm64: ${{ matrix.arm64 }}
       latest: ${{ matrix.latest }}
-      push: ${{ github.event_name == 'push' }}
+      push: ${{ inputs.push || github.event_name == 'push' }}
     secrets:
       dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
       dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
