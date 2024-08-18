@@ -3,6 +3,7 @@
 [![CI](https://github.com/gerlero/docker-openfoam/actions/workflows/ci.yml/badge.svg)](https://github.com/gerlero/docker-openfoam/actions/workflows/ci.yml)
 ![OpenFOAM](https://img.shields.io/badge/openfoam-.com%20|%20.org-informational)
 [![Docker image](https://img.shields.io/badge/docker%20image-microfluidica%2Fopenfoam-0085a0)](https://hub.docker.com/r/microfluidica/openfoam/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/microfluidica/openfoam)](https://hub.docker.com/r/microfluidica/openfoam/)
 
 Docker images of both major distributions of OpenFOAM.
 
