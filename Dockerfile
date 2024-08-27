@@ -1,14 +1,27 @@
 ARG UBUNTU_VERSION=24.04
 
-FROM ubuntu:${UBUNTU_VERSION} AS org
-ARG OPENFOAM_VERSION=12
+FROM ubuntu:${UBUNTU_VERSION} AS base
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
     wget \
-    software-properties-common \
+    ca-certificates \
     libnss-wrapper \
- && sh -c "wget -O - https://dl.openfoam.org/gpg.key > /etc/apt/trusted.gpg.d/openfoam.asc" \
+ && rm -rf /var/lib/apt/lists/*
+
+ENV OMPI_ALLOW_RUN_AS_ROOT=1
+ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+
+ENTRYPOINT ["/openfoam/run"]
+
+
+FROM base AS org
+ARG OPENFOAM_VERSION=12
+
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
+   software-properties-common \
+ && wget -O /etc/apt/trusted.gpg.d/openfoam.asc https://dl.openfoam.org/gpg.key  \
  && add-apt-repository -y http://dl.openfoam.org/ubuntu \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
@@ -25,22 +38,14 @@ SHELL ["/openfoam/bash", "-c"]
 RUN blockMesh -help \
  && wmake -help
 
-ENV OMPI_ALLOW_RUN_AS_ROOT=1
-ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
-
-ENTRYPOINT ["/openfoam/run"]
 CMD ["bash"]
 
 
-FROM ubuntu:${UBUNTU_VERSION} AS slim-base
+FROM base AS slim-base
 ARG OPENFOAM_VERSION=2406
 
 RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
-    curl \
-    ca-certificates \
-    libnss-wrapper \
- && curl https://dl.openfoam.com/add-debian-repo.sh | bash \
+ && wget -O - https://dl.openfoam.com/add-debian-repo.sh | bash \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
    openfoam${OPENFOAM_VERSION} \
  && rm -rf /var/lib/apt/lists/* \
@@ -58,10 +63,6 @@ SHELL ["/openfoam/bash", "-c"]
 # smoke test
 RUN blockMesh -help
 
-ENV OMPI_ALLOW_RUN_AS_ROOT=1
-ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
-
-ENTRYPOINT ["/openfoam/run"]
 CMD ["/usr/local/bin/openfoam"]
 
 
@@ -69,9 +70,9 @@ FROM slim-base
 
 RUN apt-get update \
  && ([ ${OPENFOAM_VERSION} -ge 2012 ] || DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
-  build-essential) \
+   build-essential) \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
-    openfoam${OPENFOAM_VERSION}-default \
+   openfoam${OPENFOAM_VERSION}-default \
  && rm -rf /var/lib/apt/lists/*
 
 COPY openfoam /openfoam
@@ -84,8 +85,4 @@ SHELL ["/openfoam/bash", "-c"]
 RUN blockMesh -help \
  && wmake -help
 
-ENV OMPI_ALLOW_RUN_AS_ROOT=1
-ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
-
-ENTRYPOINT ["/openfoam/run"]
 CMD ["/usr/local/bin/openfoam"]
