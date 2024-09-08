@@ -43,7 +43,7 @@ FROM microfluidica/openfoam:tagname
 COPY . /usr/local/src/myproject
 
 RUN /usr/local/src/myproject/Allwmake -j -prefix=group \
- && /usr/local/src/myproject/Allclean
+ && /usr/local/src/myproject/Allwclean
 ```
 
 ## Available tags
