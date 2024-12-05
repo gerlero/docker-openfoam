@@ -4,8 +4,6 @@ FROM ubuntu:${UBUNTU_VERSION} AS base
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
-    wget \
-    ca-certificates \
     libnss-wrapper \
  && rm -rf /var/lib/apt/lists/*
 
@@ -18,11 +16,9 @@ ENTRYPOINT ["/openfoam/run"]
 FROM base AS org
 ARG OPENFOAM_VERSION=12
 
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
-   software-properties-common \
- && wget -O /etc/apt/trusted.gpg.d/openfoam.asc https://dl.openfoam.org/gpg.key  \
- && add-apt-repository -y http://dl.openfoam.org/ubuntu \
+COPY gpg.key /etc/apt/keyrings/openfoam-org.asc
+
+RUN echo "deb [signed-by=/etc/apt/keyrings/openfoam-org.asc] http://dl.openfoam.org/ubuntu $(sed -ne 's/^VERSION_CODENAME=//p' /etc/os-release) main" >> /etc/apt/sources.list.d/openfoam.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
     openfoam${OPENFOAM_VERSION} \
@@ -44,8 +40,13 @@ CMD ["bash"]
 FROM base AS slim-base
 ARG OPENFOAM_VERSION=2406
 
+COPY pubkey.gpg /etc/apt/keyrings/openfoam-com.asc
+
 RUN apt-get update \
- && wget -O - https://dl.openfoam.com/add-debian-repo.sh | bash \
+ && apt-get install -y --no-install-recommends \
+    ca-certificates \
+ && echo "deb [signed-by=/etc/apt/keyrings/openfoam-com.asc] https://dl.openfoam.com/repos/deb $(sed -ne 's/^VERSION_CODENAME=//p' /etc/os-release) main" >> /etc/apt/sources.list.d/openfoam.list \
+ && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
    openfoam${OPENFOAM_VERSION} \
  && rm -rf /var/lib/apt/lists/* \
