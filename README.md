@@ -71,6 +71,8 @@ RUN /usr/local/src/myproject/Allwmake -j -prefix=group \
 - `1912` (amd64 only)
 - `1912-slim` (amd64 only)
 
+The `slim` images don't include the source code, development tools (e.g. a compiler), or tutorial cases.
+
 ### openfoam.org
 
 - `org`, `12`
