@@ -23,7 +23,7 @@ jobs:
           - openfoam-version: 2412
             ubuntu-version: 24.04
             arm64: true
-            latest: false
+            latest: true
           - openfoam-version: 2406
             ubuntu-version: 24.04
             arm64: true
