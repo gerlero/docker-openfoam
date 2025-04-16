@@ -33,11 +33,11 @@ jobs:
             arm64: true
             latest: false
           - openfoam-version: 2306
-            ubuntu-version: 22.04
+            ubuntu-version: 24.04
             arm64: true
             latest: false
           - openfoam-version: 2212
-            ubuntu-version: 22.04
+            ubuntu-version: 24.04
             arm64: true
             latest: false
           - openfoam-version: 2206
