@@ -50,8 +50,10 @@ RUN /usr/local/src/myproject/Allwmake -j -prefix=group \
 
 ### openfoam.com
 
-- `latest`, `com`, `2412`
-- `slim`, `com-slim`, `2412-slim`
+- `latest`, `com`, `2506`
+- `slim`, `com-slim`, `2506-slim`
+- `2412`
+- `2412-slim`
 - `2406`
 - `2406-slim`
 - `2312`
