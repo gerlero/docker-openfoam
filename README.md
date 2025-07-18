@@ -79,7 +79,8 @@ The `slim` images don't include the source code, development tools (e.g. a compi
 
 ### openfoam.org
 
-- `org`, `12`
+- `org`, `13`
+- `12`
 - `11`
 - `10` (amd64 only)
 - `9` (amd64 only)

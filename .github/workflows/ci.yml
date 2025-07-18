@@ -68,10 +68,14 @@ jobs:
             ubuntu-version: 18.04
             arm64: false
             latest: false
-          - openfoam-version: 12
+          - openfoam-version: 13
             ubuntu-version: 24.04
             arm64: true
             latest: true
+          - openfoam-version: 12
+            ubuntu-version: 24.04
+            arm64: true
+            latest: false
           - openfoam-version: 11
             ubuntu-version: 24.04
             arm64: true
