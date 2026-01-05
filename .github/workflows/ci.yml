@@ -20,10 +20,14 @@ jobs:
     strategy:
       matrix:
         include:
-          - openfoam-version: 2506
+          - openfoam-version: 2512
             ubuntu-version: 24.04
             arm64: true
             latest: true
+          - openfoam-version: 2506
+            ubuntu-version: 24.04
+            arm64: true
+            latest: false
           - openfoam-version: 2412
             ubuntu-version: 24.04
             arm64: true
