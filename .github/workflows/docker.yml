@@ -79,7 +79,7 @@ jobs:
           password: ${{ secrets.dockerhub-token || secrets.DOCKERHUB_TOKEN }}
       - name: Build and push (com, slim)
         if: inputs.openfoam-version >= 1000
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           platforms: ${{ inputs.arm64 && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
           tags: |
@@ -95,7 +95,7 @@ jobs:
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
       - name: Build and push (com)
         if: inputs.openfoam-version >= 1000
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           platforms: ${{ inputs.arm64 && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
           tags: |
@@ -110,7 +110,7 @@ jobs:
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
       - name: Push build cache (com, amd64)
         if: inputs.openfoam-version >= 1000 && inputs.push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           platforms: linux/amd64
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
@@ -120,7 +120,7 @@ jobs:
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
       - name: Push build cache (com, arm64)
         if: inputs.openfoam-version >= 1000 && inputs.arm64 && inputs.push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           platforms: linux/arm64
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64
@@ -130,7 +130,7 @@ jobs:
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
       - name: Build and push (org)
         if: inputs.openfoam-version < 1000
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           platforms: ${{ inputs.arm64 && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
           tags: |
@@ -146,7 +146,7 @@ jobs:
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
       - name: Push build cache (org, amd64)
         if: inputs.openfoam-version < 1000 && inputs.push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           platforms: linux/amd64
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
@@ -157,7 +157,7 @@ jobs:
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
       - name: Push build cache (org, arm64)
         if: inputs.openfoam-version < 1000 && inputs.arm64 && inputs.push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           platforms: linux/arm64
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-arm64
