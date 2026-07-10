@@ -21,7 +21,7 @@ docker run --rm -it -v $PWD:/root -w /root microfluidica/openfoam:tagname
 
 Replace `tagname` with the desired tag as listed below (or leave the tag empty to get the `latest` tag).
 
-### With OpenFOAM's [`openfoam-docker`](https://develop.openfoam.com/Development/openfoam/-/wikis/precompiled/docker) launch script
+### With OpenFOAM's [`openfoam-docker`](https://gitlab.com/openfoam/core/openfoam/-/wikis/precompiled/docker) launch script
 
 ```bash
 openfoam-docker -image=microfluidica/openfoam:tagname
