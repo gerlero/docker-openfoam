@@ -16,7 +16,8 @@ ENTRYPOINT ["/openfoam/run"]
 FROM base AS org
 ARG OPENFOAM_VERSION=13
 
-COPY gpg.key /etc/apt/keyrings/openfoam-org.asc
+# Signing key from https://dl.openfoam.org/gpg.key
+COPY openfoam-org.asc /etc/apt/keyrings/openfoam-org.asc
 
 RUN echo "deb [signed-by=/etc/apt/keyrings/openfoam-org.asc] http://dl.openfoam.org/ubuntu $(sed -ne 's/^VERSION_CODENAME=//p' /etc/os-release) main" >> /etc/apt/sources.list.d/openfoam.list \
  && apt-get update \
@@ -65,7 +66,8 @@ CMD ["bash"]
 FROM base AS slim-base
 ARG OPENFOAM_VERSION=2506
 
-COPY pubkey.gpg /etc/apt/keyrings/openfoam-com.asc
+# Signing key from https://dl.openfoam.com/pubkey.gpg
+COPY openfoam-com.asc /etc/apt/keyrings/openfoam-com.asc
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
