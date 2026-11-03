@@ -37,6 +37,31 @@ RUN blockMesh -help \
 CMD ["bash"]
 
 
+FROM base AS extend
+ARG OPENFOAM_VERSION=5.0
+
+ADD --checksum=sha256:f6ea75a00a171f76071ae35b2de148d6b1d3051690a9de81e807c9403e808c84 \
+    https://downloads.sourceforge.net/project/foam-extend/foam-extend-${OPENFOAM_VERSION}/foam-extend-${OPENFOAM_VERSION}_amd64_Ubuntu2204_77674d770.deb \
+    /tmp/foam-extend.deb
+
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
+    /tmp/foam-extend.deb \
+ && rm -rf /var/lib/apt/lists/* /tmp/foam-extend.deb
+
+COPY openfoam /openfoam
+
+RUN ln -s /opt/foam/foam-extend-${OPENFOAM_VERSION}/etc/bashrc /openfoam/profile.rc
+
+SHELL ["/openfoam/bash", "-c"]
+
+# smoke tests
+RUN blockMesh -help \
+ && command -v wmake
+
+CMD ["bash"]
+
+
 FROM base AS slim-base
 ARG OPENFOAM_VERSION=2506
 

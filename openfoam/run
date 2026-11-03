@@ -12,5 +12,10 @@ if [ $(id -u) != 0 ] && [ -z "$APPTAINER_ENVIRONMENT" ] && [ -z "$SINGULARITY_EN
     cd
 fi
 
-source /openfoam/profile.rc
+# Isolate profile argument handling from the command to execute.
+load_profile() {
+    source /openfoam/profile.rc
+}
+load_profile
+unset -f load_profile
 exec "$@"

@@ -29,7 +29,7 @@ on:
   workflow_dispatch:
     inputs:
       openfoam-version:
-        description: OpenFOAM version
+        description: OpenFOAM version (e.g. 2606, 14, or extend-5.0)
         type: string
         required: true
       ubuntu-version:
@@ -77,6 +77,12 @@ jobs:
         with:
           username: ${{ secrets.dockerhub-username || secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.dockerhub-token || secrets.DOCKERHUB_TOKEN }}
+      - name: Prepare foam-extend version
+        if: startsWith(inputs.openfoam-version, 'extend-')
+        id: extend
+        env:
+          OPENFOAM_VERSION: ${{ inputs.openfoam-version }}
+        run: echo "version=${OPENFOAM_VERSION#extend-}" >> "$GITHUB_OUTPUT"
       - name: Build and push (com, slim)
         if: inputs.openfoam-version >= 1000
         uses: docker/build-push-action@v7
@@ -165,4 +171,29 @@ jobs:
           target: org
           build-args: |
             OPENFOAM_VERSION=${{ inputs.openfoam-version }}
+            UBUNTU_VERSION=${{ inputs.ubuntu-version }}
+      - name: Build and push (foam-extend)
+        if: startsWith(inputs.openfoam-version, 'extend-')
+        uses: docker/build-push-action@v7
+        with:
+          platforms: linux/amd64
+          tags: |
+            ${{ vars.DOCKERHUB_REPOSITORY }}:${{ inputs.openfoam-version }}
+            ${{ inputs.latest && format('{0}:extend', vars.DOCKERHUB_REPOSITORY) || '' }}
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
+          push: ${{ inputs.push }}
+          target: extend
+          build-args: |
+            OPENFOAM_VERSION=${{ steps.extend.outputs.version }}
+            UBUNTU_VERSION=${{ inputs.ubuntu-version }}
+      - name: Push build cache (foam-extend, amd64)
+        if: startsWith(inputs.openfoam-version, 'extend-') && inputs.push
+        uses: docker/build-push-action@v7
+        with:
+          platforms: linux/amd64
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache-${{ inputs.openfoam-version }}-amd64,mode=max
+          target: extend
+          build-args: |
+            OPENFOAM_VERSION=${{ steps.extend.outputs.version }}
             UBUNTU_VERSION=${{ inputs.ubuntu-version }}
