@@ -1,13 +1,13 @@
 # Docker images of OpenFOAM
 
 [![CI](https://github.com/gerlero/docker-openfoam/actions/workflows/ci.yml/badge.svg)](https://github.com/gerlero/docker-openfoam/actions/workflows/ci.yml)
-![OpenFOAM](https://img.shields.io/badge/openfoam-.com%20|%20.org-informational)
+![OpenFOAM](https://img.shields.io/badge/openfoam-.com%20|%20.org%20|%20extend-informational)
 [![Docker image](https://img.shields.io/badge/docker%20image-microfluidica%2Fopenfoam-0085a0)](https://hub.docker.com/r/microfluidica/openfoam/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/microfluidica/openfoam)](https://hub.docker.com/r/microfluidica/openfoam/)
 
-Docker images of both major distributions of OpenFOAM.
+Docker images of major distributions of OpenFOAM.
 
-Mutliple versions available.`amd64` and `arm64` architectures are supported.
+Multiple versions available. `amd64` and `arm64` architectures are supported.
 
 ## Usage
 
@@ -48,7 +48,7 @@ RUN /usr/local/src/myproject/Allwmake -j -prefix=group \
 
 ## Available tags
 
-### openfoam.com
+### [openfoam.com](https://openfoam.com)
 
 - `latest`, `com`, `2606`
 - `slim`, `com-slim`, `2606-slim`
@@ -81,7 +81,7 @@ RUN /usr/local/src/myproject/Allwmake -j -prefix=group \
 
 The `slim` images don't include the source code, development tools (e.g. a compiler), or tutorial cases.
 
-### openfoam.org
+### [openfoam.org](https://openfoam.org/)
 
 - `org`, `14`
 - `13`
@@ -93,3 +93,7 @@ The `slim` images don't include the source code, development tools (e.g. a compi
 - `7` (amd64 only)
 - `6` (amd64 only)
 - `5` (amd64 only)
+
+### [foam-extend](https://sourceforge.net/projects/foam-extend/)
+
+- `extend`, `extend-5.0` (amd64 only)
