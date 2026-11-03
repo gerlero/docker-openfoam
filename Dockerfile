@@ -14,7 +14,7 @@ ENTRYPOINT ["/openfoam/run"]
 
 
 FROM base AS org
-ARG OPENFOAM_VERSION=13
+ARG OPENFOAM_VERSION=14
 
 # Signing key from https://dl.openfoam.org/gpg.key
 COPY openfoam-org.asc /etc/apt/keyrings/openfoam-org.asc
@@ -64,7 +64,7 @@ CMD ["bash"]
 
 
 FROM base AS slim-base
-ARG OPENFOAM_VERSION=2506
+ARG OPENFOAM_VERSION=2606
 
 # Signing key from https://dl.openfoam.com/pubkey.gpg
 COPY openfoam-com.asc /etc/apt/keyrings/openfoam-com.asc
