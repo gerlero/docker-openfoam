@@ -19,7 +19,13 @@ ARG OPENFOAM_VERSION=14
 # Signing key from https://dl.openfoam.org/gpg.key
 COPY openfoam-org.asc /etc/apt/keyrings/openfoam-org.asc
 
-RUN echo "deb [signed-by=/etc/apt/keyrings/openfoam-org.asc] http://dl.openfoam.org/ubuntu $(sed -ne 's/^VERSION_CODENAME=//p' /etc/os-release) main" >> /etc/apt/sources.list.d/openfoam.list \
+RUN printf '%s\n' \
+      'Types: deb' \
+      'URIs: http://dl.openfoam.org/ubuntu' \
+      "Suites: $(sed -ne 's/^VERSION_CODENAME=//p' /etc/os-release)" \
+      'Components: main' \
+      'Signed-By: /etc/apt/keyrings/openfoam-org.asc' \
+      > /etc/apt/sources.list.d/openfoam.sources \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
     openfoam${OPENFOAM_VERSION} \
@@ -72,7 +78,13 @@ COPY openfoam-com.asc /etc/apt/keyrings/openfoam-com.asc
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     ca-certificates \
- && echo "deb [signed-by=/etc/apt/keyrings/openfoam-com.asc] https://dl.openfoam.com/repos/deb $(sed -ne 's/^VERSION_CODENAME=//p' /etc/os-release) main" >> /etc/apt/sources.list.d/openfoam.list \
+ && printf '%s\n' \
+      'Types: deb' \
+      'URIs: https://dl.openfoam.com/repos/deb' \
+      "Suites: $(sed -ne 's/^VERSION_CODENAME=//p' /etc/os-release)" \
+      'Components: main' \
+      'Signed-By: /etc/apt/keyrings/openfoam-com.asc' \
+      > /etc/apt/sources.list.d/openfoam.sources \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
    openfoam${OPENFOAM_VERSION} \
